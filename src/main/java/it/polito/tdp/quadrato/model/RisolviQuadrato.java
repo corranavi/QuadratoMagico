@@ -7,6 +7,44 @@ public class RisolviQuadrato {
 	private int N ; // lato del quadrato
 	private int N2 ; // numero di caselle (N^2)
 	private int magica ; // costante magica
+	private List<List<Integer>> soluzioni;
+	
+	public RisolviQuadrato(int n) {
+		this.N=n;
+		this.N2=n*n;
+		this.magica=N*(N2+1)/2;
+	}
+	
+	public List<List<Integer>> quadrati() {
+		List<Integer> parziale=new ArrayList<>();
+		int livello=0;
+		soluzioni=new ArrayList<>();
+		
+		cerca(parziale, livello);
+		return soluzioni;
+	}
+	
+	private void cerca(List<Integer> parziale, int livello) {
+		//SONO NEL CASO TERMINALE?
+		if(livello==N2) {
+			if(controlla(parziale)) {
+				//OK, è magico
+				//System.out.println(parziale);
+				soluzioni.add(new ArrayList<>(parziale));
+			}
+			return;
+		}
+		
+		//SONO NEL CASO GENERALE
+		for(int valore=1; valore<=N2; valore++) {
+			if(!parziale.contains(valore)) {
+				parziale.add(valore);
+				cerca(parziale, livello+1);
+				parziale.remove(parziale.size()-1);
+			}
+		}
+		return;
+	}
 	
 	
 	/**
